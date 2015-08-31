@@ -1,0 +1,87 @@
+data Day = Mon | Tue | Wen | Thu | Fri | Sat | Sun
+data Bool = True | False
+data Pair a b = MkPair a b
+data Maybe a = Nothing | Just a
+data Nat = Zero | Suc Nat
+data List = Nil | Cons a (List a)
+
+next :: Day -> Day
+next Mon = Tue
+next Tue = Wen
+next Wen = Thu
+next Thu = Fri
+next Fri = Sat
+next Sat = Sun
+next Sun = Mon
+
+weekend :: Day -> Bool
+weekend Sat = True
+weekend Sun = True
+weekend _ = False
+
+not :: Bool -> Bool
+not True = False
+not False = True
+
+and :: Bool -> Bool -> Bool
+and True True = True
+and _ _ = False
+
+and' :: Bool -> Bool -> Bool
+and False _ = False
+and _ x = x
+
+or :: Bool -> Bool -> Bool
+or True _ = True
+or _ x = x
+
+ifThenElse :: Bool -> a -> a -> a
+ifThenElse True x _ = x
+ifThenElse _ _ y = y
+
+fst :: Pair a b -> a
+fst (MkPair x _) = x
+
+snd :: Pair a b -> b
+snd (MkPair _ y) = y
+
+eqNat :: Nat -> Nat -> Bool
+eqNat Zero Zero = True
+eqNat (Suc n) (Suc m) = eqNat n m
+eqNat _ _ = False
+
+add :: Nat -> Nat -> Nat
+add Zero x = x
+add (Suc n) x = Suc (add n x)
+
+sub :: Nat -> Nat -> Maybe Nat
+sub x Zero = Just x
+sub (Suc n) (Suc m) = sub n m
+sub Zero _ = Nothing
+
+eqBool :: Bool -> Bool -> Bool
+eqBool True x = x
+eqBool False x = not x
+
+(/=) :: Eq a => a -> a -> Bool
+(/=) x y = not (x == y)
+
+class Eq a where 
+	(==) :: a -> a -> Bool
+
+instance Eq Bool where
+	x == y = eqBool x y
+instance Eq Nat where
+	(==) x y = eqNat x y
+
+head :: List a -> Maybe a
+head Nil = Nothing
+head (Cons x _) = Just x
+
+length :: List a -> Nat
+length Nil = Zero
+length (Cons x xs) = Suc(length xs)
+
+elem :: Eq a => a -> List a -> Bool
+elem e Nil = False
+elem e (Cons x xs) = e == x ´or´ elem e xs
