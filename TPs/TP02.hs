@@ -34,3 +34,10 @@ subst f g x = f x (g x)
 pairFunc :: ((b -> a), (a -> b)) -> a -> b -> (a,b)
 pairFunc (f1,f2) x y = (f1 (f2 x), f2 (f1 y))
 
+-- 8)
+
+data Punto = XY Int Int | XYZ Int Int Int
+
+modulo :: Punto -> Int
+modulo (XY x y) = sqrt (x^2) + sqrt (y^2)
+modulo (XYZ x y z) = sqrt (x^2) + sqrt (y^2) + sqrt (z^2)

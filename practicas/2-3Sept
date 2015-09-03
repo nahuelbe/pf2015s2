@@ -1,0 +1,36 @@
+data Nat = Zero | Suc Nat
+
+id' = \x -> x
+id'' x = x
+
+apply :: (a -> b) -> a -> b
+apply f x = f x
+
+flipApply :: a -> (a -> b) -> b
+flipApply x f = f x
+
+maybeApply :: (a -> Maybe b) -> Maybe a -> Maybe b
+maybeApply f Nothing = Nothing
+maybeApply f (Just x) = f x
+
+(£) = maybeApply
+
+inc :: Nat -> Nat
+inc = Suc
+
+inc' :: Int -> Int
+inc' = (+) 1
+
+const :: a -> b -> a
+const x y = x
+
+const' x = \y -> x
+
+(.) :: (a -> b) -> (c -> a) -> c -> b
+(.) f g = \x -> f g x
+
+twice :: (a -> a) -> a -> a
+twice f = f.f
+
+inc2 :: Nat -> Nat
+inc2 = twice Suc
