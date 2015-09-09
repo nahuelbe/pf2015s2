@@ -34,9 +34,27 @@ subst f g x = f x (g x)
 pairFunc :: ((b -> a), (a -> b)) -> a -> b -> (a,b)
 pairFunc (f1,f2) x y = (f1 (f2 x), f2 (f1 y))
 
-smaller :: Int -> Int -> Int -> Int
-smaller = \x y z -> if x <= y && x <= z
-				  		  then x
-				  		  else if y <= x && y <= z
-				  	   		   then y
-				  	   		   else z
+--11)
+--a)
+\x y z -> if x <= y && x <= z
+		  then x
+		  else if y <= x && y <= z
+			   then y
+			   else z
+
+--b)
+\x -> \x -> x
+
+--c)
+\x -> \y -> case x of True -> y
+				      False -> False
+--12)
+--a) 
+iff :: Bool -> (Bool -> Bool)
+iff x y = if x 
+		  then not y
+		  else y
+
+--b)
+alpha :: a -> a -> a
+alpha x y = y
