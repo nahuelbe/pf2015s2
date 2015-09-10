@@ -1,0 +1,41 @@
+flip :: (a -> b -> c) -> b -> a -> c
+flip f = \x y -> f y x
+
+uncurry :: (a -> b -> c) -> (a,b) -> c
+uncurry f = \(x,y) -> f x y
+
+curry :: ((a,b) -> c) -> a -> b -> c
+curry f = \x y -> f (x,y)
+
+type Set a = a -> Bool
+
+empty :: Set a
+empty = const False
+
+univ = const True
+
+singleton :: Eq a => a -> Set a
+singleton = (==)
+
+belongs :: a -> Set a -> Bool
+belongs x s = s x
+
+complement :: Set a -> Set a
+complement = (not.)
+
+union :: Set a -> Set a -> Set a
+union s t = \x -> s x || t x
+
+intersection :: Set a -> Set a -> Set a
+intersection s t = \x -> s x && t x
+
+listToSet :: Eq a => [a] -> Set a
+listToSet = flip elem
+
+gtPairs :: Ord a => Set (a,a)
+gtPairs = uncurry (<)
+
+gtPairs' = \(x,y) -> x < y
+
+image :: Set(a,b) -> a -> Set b
+image s x = \y -> s (x,y) 
