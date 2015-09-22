@@ -20,7 +20,6 @@ fix f = f (fix f)
 summ :: [Int] -> Int 
 summ = fix (\r xs -> if  null xs then 0 else (head xs) + r (tail xs ))
 
-
 --b)
 fork :: (a -> b, a -> c) -> a -> (b,c) 
 fork (f,g) x = (f x, g x)
@@ -41,6 +40,3 @@ curry f x y = f (x,y)
 2=3
 
 nats0@(zero:nats1) = 0 : [1..]
-
-
-
