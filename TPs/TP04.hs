@@ -28,7 +28,7 @@ dividesTo' x y = if x <= y
 
 prime :: Int -> Bool
 prime 0 = False
-prime 1 = True
+prime 1 = False
 prime x = nextDiv 1 x == x
 
 phi :: Int -> Int
@@ -36,9 +36,9 @@ phi x = phi' x 2
 
 phi' :: Int -> Int -> Int
 phi' 1 y = (y-1)
-phi' i y = if prime y
-		   then phi' (i-1) (y+1)
-		   else phi' i (y+1)
+phi' x y = if prime y
+		   then phi' (x-1) (y+1)
+		   else phi' x (y+1)
 
 {-
 
@@ -72,4 +72,6 @@ f'' = g' // siendo g' :: b -> a -> c
 Verdadero
 
 -}
+
+len (xs ++ ys) = len xs + len ys
 

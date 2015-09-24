@@ -7,15 +7,13 @@
 -- \f x y -> f y x
 
 --C)
--- \_ -> (+1)
+-- \x -> x+1
 
 --6)
 
 --a)
 fix :: (a -> a) -> a
 fix f = f (fix f)
-
---from :: Int -> [Int] DESAFIO
 
 summ :: [Int] -> Int 
 summ = fix (\r xs -> if  null xs then 0 else (head xs) + r (tail xs ))
@@ -36,7 +34,3 @@ apply2 = id
 
 curry :: ((a,b) -> c) -> a -> b -> c
 curry f x y = f (x,y)
-
-2=3
-
-nats0@(zero:nats1) = 0 : [1..]
