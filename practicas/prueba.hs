@@ -30,6 +30,3 @@ subst f g x = f x (g x)
 
 pairFunc :: ((b -> a),(a -> b)) -> a -> b -> (a,b)
 pairFunc (f1, f2) x y = (f1 (f2 x), f2 (f1 y))
-
-gauss :: Int -> Int
-gauss = sum id 0

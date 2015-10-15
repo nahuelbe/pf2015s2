@@ -1,0 +1,46 @@
+ifThenElse :: Bool -> a -> a -> a
+ifThenElse True x y = x
+ifThenElse False x y = y
+
+true = ifThenElse True
+false = ifThenElse False
+
+type BoolL = a -> a -> a
+
+not' :: BoolL -> BoolL
+not' b = \x y -> b y x
+
+ifTE :: BoolL -> (a -> a -> a)
+ifTE = id
+
+foldr' :: (a -> b -> b) -> b -> [a] -> b
+foldr' f cb [] = cb
+foldr' f cb (x:xs) = f x (foldr' f cb xs)
+
+map' :: (a -> b) -> [a] -> [b] 
+map' f = foldr' ((:).f) []
+
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' f = foldr' (\x r -> if f x then x:r else r) []
+
+zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith f [] _ = []
+zipWith f _ [] = []
+zipWith f (x:xs) (y:ys) = f x y : zipWith f xs ys
+
+-- DESAFÍO
+-- HACER ZIPWITH USANDO FOLDR
+
+-- zipWith' f xs = 
+
+zip :: [a] -> [b] -> [(a,b)]
+zip = zipWith (,)
+
+type Matrix a = [[a]]
+
+repOk :: Matrix a -> Bool
+repOk [] = False
+repOk (x:xs) = foldr' (\f -> length x == length f &&) True xs
+
+mAdd :: Matrix Int -> Matrix Int -> Matrix Int
+mAdd x y = zipWith (\r1 r2 zipWith (+) r1 r2) x y
