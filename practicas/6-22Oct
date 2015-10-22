@@ -1,0 +1,54 @@
+zipWith'  f = foldr eval f (const [])
+
+eval f x r = \ys -> case ys of
+				[] -> []
+				(y:ys') -> f x y : r ys'
+
+data Tree a = Nil | Bin a (Tree a) (Tree a)
+
+foldTree :: (a -> b -> b -> b) -> b -> Tree a -> b
+foldTree f cb Nil = cb
+foldTree f cb (Bin e l r) = f e (foldTree f cb l) (foldTree f cb r)
+
+mapTree :: (a -> b) -> Tree a -> Tree a
+mapTree f = foldTree (Bin.f) Nil
+
+inOrderTree :: Tree a -> [a]
+inOrderTree = foldTree (\e lr -> lr ++ [e] ++) [] 
+
+search :: Ord a => a -> Tree a -> Bool
+search e = foldTree (\x lr rr -> e == x || if e < x then lr else rr) False
+
+data Poli = Cte Int | Var | Add Poli Poli | Mul Poli Poli
+
+foldPoli :: (Int -> b) -> b -> (b -> b -> b) -> (b -> b -> b) -> Poli -> b
+foldPoli fc fv fa fm (Cte n) = fc n
+foldPoli fc fv fa fm (Var) = fv
+foldPoli fc fv fa fm (Add p q) = fa (foldPoli fc fv fa fm p) (foldPoli fc fv fa fm q)
+foldPoli fc fv fa fm (Mul p q) = fm (foldPoli fc fv fa fm p) (foldPoli fc fv fa fm q)
+
+eval :: Int -> Poli -> Int
+eval x = foldPoli id x (+) (*)
+
+{-- Desafío: Hallar el camino más largo de un árbol usando foldTree. --}
+
+P(xs) = (map (map f) . map (x:)) xs = (map ((f x) :) . map (map f)) xs
+
+EI = P ([]) ^ (P (xs) => P (x:xs))
+
+CB: (map (map f) . map (x:)) [] = ((map ((fx) :)) . map (map f)) []
+(.) => map (map f) (map (x:) []) = map ((f x):) (map (map f) [])
+map.1 => map (map f) [] = map ((f x):) []
+map.1 => [] = []
+
+PI: P(y:ys)
+
+(map (map f) . map (x:)) (y:ys) = ((map ((fx) :)) . map (map f)) (y:ys)
+(.) => map (map f) (map (x:) (y:ys)) = map ((f x):) (map (map f) (y:ys))
+map.2 => map (map f) ((x:y): map (x:) ys) = map ((f x):) (map f y : map (map f) ys)
+map.2 => map f (x:y) : map (map f) (map (x:) ys) = ((f x):map f y) : map ((f x):) (map (map f) ys)
+map.2 => (f x : map f y) : map (map f) (map (x:) ys) = (f x : map f y) : map ((f x) :) (map (map f) ys)
+HI => (f x : map f y) : (map ((f x):)) (map (map f) ys ) = (f x : map f y) : (map ((f x):)) (map (map f) ys )
+								TRUE
+
+

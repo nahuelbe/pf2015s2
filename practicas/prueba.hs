@@ -30,3 +30,17 @@ subst f g x = f x (g x)
 
 pairFunc :: ((b -> a),(a -> b)) -> a -> b -> (a,b)
 pairFunc (f1, f2) x y = (f1 (f2 x), f2 (f1 y))
+
+--zipWith'  f = foldr eval f (const [])
+
+zipWith' f xs ys = map (uncurry f) (zip' xs ys)
+
+eval f x r = \ys -> case ys of
+				[] -> []
+				(y:ys') -> f x y : r ys'
+
+zip' = foldr evalZip (const [])
+
+evalZip x r = \ys -> case ys of
+				[] -> []
+				(y:ys') -> (x,y) : r ys'
