@@ -4,7 +4,7 @@ id' = \x -> x
 id'' x = x
 
 apply :: (a -> b) -> a -> b
-apply f x = f x
+apply = id
 
 flipApply :: a -> (a -> b) -> b
 flipApply x f = f x
